@@ -32,7 +32,7 @@ def get_traineeMgrSeq(trainUnitCd, trainUnitEduSeq):
 def send_letter(traineeMgrSeq, content, title):
     data = {'traineeMgrSeq':traineeMgrSeq, 'boardDiv':'sympathyLetter', 'sympathyLetterContent':content,'sympathyLetterSubject':title}
     r = session.post("https://www.thecamp.or.kr/consolLetter/insertConsolLetterA.do",data=data)
-    print(r.text)
+    print('오류발생') if r.json()['resultCd'] != '0000' else print('정상처리, 제목 : ' + title)
 
 
 def get_boannews_contents(URL):
