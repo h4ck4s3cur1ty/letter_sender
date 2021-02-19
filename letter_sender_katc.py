@@ -61,7 +61,7 @@ def send_boannews():
         pages = math.ceil(len(body) / 800)
         body = [body[i:i+800] for i in range(0,len(body), 800)]
         for j in range(pages):
-            write_letter(title + ' - ' + str(j), body[j].strip(), 'qwerasdf!!')
+            write_letter(title + ' - ' + str(j), body[j].strip(), letter_password)
             time.sleep(0.5)
             turnoff_alert()
             time.sleep(0.5)
@@ -83,16 +83,18 @@ def send_jtbcnews():
         pages = math.ceil(len(body) / 800)
         body = [body[i:i+800] for i in range(0,len(body), 800)]
         for j in range(pages):
-            write_letter(title + ' - ' + str(j), body[j].strip(), 'qwerasdf!!')
+            write_letter(title + ' - ' + str(j), body[j].strip(), letter_password)
             time.sleep(0.5)
             turnoff_alert()
             time.sleep(0.5)
             init(enlistment_date,birth,name)
 
 URL = 'https://www.katc.mil.kr/katc/community/children.jsp'
+
 enlistment_date = ''
 birth = ''
 name = ''
+letter_password = ''
 
 driver = webdriver.Chrome(executable_path='chromedriver')
 driver.get(url=URL)
