@@ -109,6 +109,7 @@ def send_epl_rank():
         score = team_list[i].findAll('span')[7].contents[0]
         result += "{} {} {}".format(rank,team,score)+' ## '
     send_letter(traineeMgrSeq, result, now + ' EPL 순위')
+    time.sleep(1)
 
 session = login('', '')
 trainUnitCd, trainUnitEduSeq = get_trainUnit()
@@ -117,3 +118,4 @@ traineeMgrSeq = get_traineeMgrSeq(trainUnitCd, trainUnitEduSeq)
 send_jtbcnews()
 send_boannews()
 send_naver_baseball_sk()
+send_epl_rank()
