@@ -90,12 +90,25 @@ def send_naver_baseball_sk():
         oid = data['list'][i]['oid']
         aid = data['list'][i]['aid']
         body = get_naver_baseball_sk_content(oid, aid)
-        print(body)
         pages = math.ceil(len(body) / 1500)
         body = [body[i:i+1500] for i in range(0,len(body), 1500)]
         for j in range(pages):
             send_letter(traineeMgrSeq, body[j].strip(), title + ' - ' + str(j+1))
             time.sleep(1)
+
+def send_epl_rank():
+    r = requests.get('https://sports.news.naver.com/wfootball/index.nhn')
+    soup = BeautifulSoup(r.content, 'html.parser')
+
+    now = time.strftime('%Y-%m-%d', time.localtime(time.time()))
+    team_list = soup.find('div', id='_team_rank_epl').findAll('tr')
+    result = ''
+    for i in range(1,len(team_list)):
+        rank = team_list[i].find('span', class_='blind').contents[0]
+        team = team_list[i].find('span', class_='name').contents[0]
+        score = team_list[i].findAll('span')[7].contents[0]
+        result += "{} {} {}".format(rank,team,score)+' ## '
+    send_letter(traineeMgrSeq, result, now + ' EPL 순위')
 
 session = login('', '')
 trainUnitCd, trainUnitEduSeq = get_trainUnit()
