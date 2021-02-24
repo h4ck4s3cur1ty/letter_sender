@@ -74,6 +74,28 @@ def send_jtbcnews():
             send_letter(traineeMgrSeq, body[j].strip(), title + ' - ' + str(j+1))
             time.sleep(1)
 
+def get_naver_baseball_sk_content(oid, aid):
+    r = requests.get('https://sports.news.naver.com/news.nhn?oid=' + oid +'&aid=' + aid)
+    soup = BeautifulSoup(r.content, 'lxml')
+    data = str(soup.find('div', id='newsEndContents'))
+    body = data[:data.find('<p class="source">')]
+    body = re.sub('<.+?>', '', body).strip()
+    return body
+
+def send_naver_baseball_sk():
+    r = requests.get('https://sports.news.naver.com/kbaseball/news/list.nhn?isphoto=N&type=team&team=SK&view=text')
+    data = r.json()
+    for i in range(len(data['list'])):
+        title = data['list'][i]['title'].strip()
+        oid = data['list'][i]['oid']
+        aid = data['list'][i]['aid']
+        body = get_naver_baseball_sk_content(oid, aid)
+        print(body)
+        pages = math.ceil(len(body) / 1500)
+        body = [body[i:i+1500] for i in range(0,len(body), 1500)]
+        for j in range(pages):
+            send_letter(traineeMgrSeq, body[j].strip(), title + ' - ' + str(j+1))
+            time.sleep(1)
 
 session = login('', '')
 trainUnitCd, trainUnitEduSeq = get_trainUnit()
@@ -81,3 +103,4 @@ traineeMgrSeq = get_traineeMgrSeq(trainUnitCd, trainUnitEduSeq)
 
 send_jtbcnews()
 send_boannews()
+send_naver_baseball_sk()
