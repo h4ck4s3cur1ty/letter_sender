@@ -16,7 +16,10 @@ def login(userId, userPwd):
 def get_trainUnit():
     r = session.get('https://www.thecamp.or.kr/eduUnitCafe/viewEduUnitCafeMain.do')
     soup = BeautifulSoup(r.text, 'html.parser')
-    fn_consolLetter = soup.findAll('a', class_='btn-green')[0].get('href')
+    data = soup.findAll('div', class_='id')
+    for i in range(len(data)): print(str(i+1)+'. '+data[i].find('span').contents[0])
+    num_soldier = int(input('Select Soldier : '))-1
+    fn_consolLetter = soup.findAll('a', class_='btn-green')[num_soldier].get('href')
     trainUnitCd = QUOTED_STRING_RE.findall(fn_consolLetter)[1][1]
     trainUnitEduSeq = QUOTED_STRING_RE.findall(fn_consolLetter)[0][1]
     return trainUnitCd, trainUnitEduSeq
