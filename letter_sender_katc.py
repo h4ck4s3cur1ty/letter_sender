@@ -132,6 +132,19 @@ def send_epl_rank():
     time.sleep(0.5)
     init(enlistment_date,birth,name)
 
+def send_lol_patchnote():
+    r = requests.get('https://kr.leagueoflegends.com/ko-kr/news/game-updates/patch-11-5-notes/')
+    soup = BeautifulSoup(r.content, 'lxml')
+    body = soup.find('div', id='patch-notes-container').get_text('\n', strip=True)
+    pages = math.ceil(len(body) / 800)
+    body = [body[i:i+800] for i in range(0,len(body), 800)]
+    for j in range(pages):
+        send_letter('lol패치노트 - ' + str(j+1), body[j].strip(), letter_password)
+        time.sleep(0.5)
+        turnoff_alert()
+        time.sleep(0.5)
+        init(enlistment_date,birth,name)
+
 URL = 'https://www.katc.mil.kr/katc/community/children.jsp'
 
 enlistment_date = ''
@@ -148,3 +161,4 @@ send_jtbcnews()
 send_boannews()
 send_naver_baseball_sk()
 send_epl_rank()
+send_lol_patchnote()
