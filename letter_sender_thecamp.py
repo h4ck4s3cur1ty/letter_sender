@@ -124,6 +124,16 @@ def send_lol_patchnote():
         send_letter(traineeMgrSeq, body[j].strip(), 'lol패치노트 - ' + str(j+1))
         time.sleep(1)
 
+def send_eternalreturn_patchnote():
+    r = requests.get('https://playeternalreturn.com/ko/patch-notes/0-27-0/')
+    soup = BeautifulSoup(r.content, 'lxml')
+    body = soup.find('div', class_='entry-content').get_text('\n', strip=True)
+    pages = math.ceil(len(body) / 1500)
+    body = [body[i:i+1500] for i in range(0,len(body), 1500)]
+    for j in range(pages):
+        send_letter(traineeMgrSeq, body[j].strip(), '블서패치노트 - ' + str(j+1))
+        time.sleep(1)
+
 session = login('', '')
 trainUnitCd, trainUnitEduSeq = get_trainUnit()
 traineeMgrSeq = get_traineeMgrSeq(trainUnitCd, trainUnitEduSeq)
@@ -133,3 +143,4 @@ send_boannews()
 send_naver_baseball_sk()
 send_epl_rank()
 send_lol_patchnote()
+send_eternalreturn_patchnote()
