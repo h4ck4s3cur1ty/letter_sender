@@ -145,6 +145,19 @@ def send_lol_patchnote():
         time.sleep(0.5)
         init(enlistment_date,birth,name)
 
+def send_eternalreturn_patchnote():
+    r = requests.get('https://playeternalreturn.com/ko/patch-notes/0-27-0/')
+    soup = BeautifulSoup(r.content, 'lxml')
+    body = soup.find('div', class_='entry-content').get_text('\n', strip=True)
+    pages = math.ceil(len(body) / 800)
+    body = [body[i:i+800] for i in range(0,len(body), 800)]
+    for j in range(pages):
+        send_letter('블서패치노트 - ' + str(j+1), body[j].strip(), letter_password)
+        time.sleep(0.5)
+        turnoff_alert()
+        time.sleep(0.5)
+        init(enlistment_date,birth,name)
+
 URL = 'https://www.katc.mil.kr/katc/community/children.jsp'
 
 enlistment_date = ''
