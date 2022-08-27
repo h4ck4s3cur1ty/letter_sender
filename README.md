@@ -3,7 +3,7 @@
 최근에 입대한 친한동생, 곧 입대하는 친구를 위해 만든 인터넷편지 매크로 입니다.  
   
 ## How it works
-육군 공식홈페이지 버전(letter_sender_katc.py)과 더캠프 버전(letter_sender_katc.py)이 있습니다.  
+육군 공식홈페이지 버전(letter_sender_katc.py)과 더캠프 버전(letter_sender_thecamp.py)이 있습니다.  
     
 보안뉴스와 JTBC 기사를 RSS기반으로 기사제목과 내용을 크롤링하며,  
 공식홈페이지 버전은 Selenium을 이용하고, 더캠프 버전은 requests를 이용합니다.
